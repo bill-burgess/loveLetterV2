@@ -87,6 +87,37 @@ test('Prince (5) | Tom discards priest and draws king', t => {
 
   t.deepEqual(expectedEndState2, endState2, 'Bill discards his princess and is eliminated')
 
+  const intermediateState2 = {
+    players: {
+      1: {name: 'Bill', hand: [8], position: 1, immune: false, alive: true},
+      2: {name: 'Tom', hand: [2], position: 2, immune: false, alive: true},
+      3: {name: 'Dick', hand: [1], position: 3, immune: false, alive: true},
+      4: {name: 'Harry', hand: [1], position: 4, immune: false, alive: true}
+    },
+    activePlayer: 4,
+    activeCard: 5,
+    targetedPlayer: null,
+    deck: [],
+    removedCard: 3
+}
+
+  const endState3 = reducer(intermediateState2, targetingAction1)
+
+  const expectedEndState3 = {
+    players: {
+      1: {name: 'Bill', hand: [8], position: 1, immune: false, alive: true},
+      2: {name: 'Tom', hand: [3], position: 2, immune: false, alive: true},
+      3: {name: 'Dick', hand: [1], position: 3, immune: false, alive: true},
+      4: {name: 'Harry', hand: [1], position: 4, immune: false, alive: true}
+    },
+    activePlayer: 4,
+    activeCard: null,
+    targetedPlayer: null,
+    deck: [],
+    removedCard: 3
+  }
+
+  t.deepEqual(expectedEndState3, endState3, 'Tom discards his priest and as there are no cards in the deck adds the removedCard to his hand, a baron')
 
   t.end()
 })

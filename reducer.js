@@ -55,7 +55,7 @@ function reducer(state, action){
             newState.players[action.payload].alive = false
           }else{
             if(newState.deck.length === 0){
-              newState.players[action.payload].push(newState.removedCard)
+              newState.players[action.payload].hand.push(newState.removedCard)
             }else{
               drawCard(newState, action.payload)
             }
