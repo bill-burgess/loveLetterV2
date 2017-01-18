@@ -34,12 +34,39 @@ function reducer(state, action){
       return newState
 
     case 'PLAY_CARD':
-      const playedCard = newState.players[state.activePlayer].hand.splice(action.payload, 1)[0]
-      newState.activeCard = playedCard
-      return newState
+    const playedCard = newState.players[state.activePlayer].hand.splice(action.payload, 1)[0]
+    newState.activeCard = playedCard
+      switch (playedCard) {
+        case 4:
+          newState.players[newState.activePlayer].immune = true
+          newState.activeCard = null
+          return newState
+
+        case 7:
+          newState.activeCard = null
+          return newState
+
+        case 8:
+          newState.players[newState.activePlayer].alive = false
+          newState.activeCard = null
+        return newState
+
+        default:
+          return newState
+      }
 
     case 'TARGET_PLAYER':
       switch (newState.activeCard) {
+        case 1:
+          newState.targetedPlayer = action.payload
+          return newState
+
+        case 2:
+          newHistory(newState, 'PLAYED_CARD', action.payload)
+          newHistory(newState, 'REVEAL', action.payload)
+
+          break;
+
         case 3:
           const activePlayerRank = newState.players[newState.activePlayer].hand[0]
           const targetPlayerRank = newState.players[action.payload].hand[0]
@@ -49,6 +76,8 @@ function reducer(state, action){
               :newState.players[action.payload]
             playerToEliminate.alive = false
           }
+          break;
+
         case 5:
           const discard = newState.players[action.payload].hand.splice(0, 1)[0]
           if(discard === 8){
@@ -60,13 +89,40 @@ function reducer(state, action){
               drawCard(newState, action.payload)
             }
           }
+          break;
+
+        case 6:
+          const turnPlayerCard = newState.players[newState.activePlayer].hand.pop()
+          const targetPlayerCard = newState.players[action.payload].hand.pop()
+          newState.players[newState.activePlayer].hand.push(targetPlayerCard)
+          newState.players[action.payload].hand.push(turnPlayerCard)
       }
       newState.activeCard = null
       return newState
 
+      case 'GUESS_CARD':
+        if(newState.players[newState.targetedPlayer].hand[0] === action.payload){
+          newState.players[newState.targetedPlayer].alive = false
+        }
+        newState.activeCard = null
+        newState.targetedPlayer = null
+        return newState
   }
+
+
 }
 
+function newHistory(state, type, targetPlayer){
+  const historyState = clone(state)
+  const history = {
+    type: type,
+    activePlayerAtAction: historyState.activePlayer,
+    targetPlayer: targetPlayer,
+    playedCard: historyState.activeCard,
+    targetPlayerCard: historyState.players[targetPlayer].hand[0]
+  }
+  state.history.push(history)
+}
 
 function drawCard(state, playerKey){
   const card = state.deck.pop()

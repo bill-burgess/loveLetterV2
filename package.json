@@ -4,7 +4,7 @@
   "description": "A basic recreation of the card game Love Letter. Version 2.",
   "main": "index.js",
   "scripts": {
-    "test": "node */*.test.js | tap-diff"
+    "test": "tape test/*.test.js | tap-diff"
   },
   "repository": {
     "type": "git",

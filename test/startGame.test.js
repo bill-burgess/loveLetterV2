@@ -9,7 +9,8 @@ test('GENERATE_DECK | returns a full deck of 16 cards', t => {
     deck: [],
     activePlayer: 1,
     targetedPlayer: null,
-    activeCard: null
+    activeCard: null,
+    removedCard: null
   }
   freeze(state)
 
@@ -22,7 +23,8 @@ test('GENERATE_DECK | returns a full deck of 16 cards', t => {
     deck: [1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7, 8],
     activePlayer: 1,
     targetedPlayer: null,
-    activeCard: null
+    activeCard: null,
+    removedCard: null
   }
 
   const newState = reducer(state, action)
@@ -82,7 +84,8 @@ test('DEAL | removes the last card from the deck array then gives one card to ea
     deck: [5, 2, 1, 1, 8, 1, 4, 4, 3, 6, 5, 3, 1, 2, 1, 7],
     activePlayer: 1,
     targetedPlayer: null,
-    activeCard: null
+    activeCard: null,
+    removedCard: null
   }
   freeze(state)
 
@@ -100,7 +103,8 @@ test('DEAL | removes the last card from the deck array then gives one card to ea
     deck: [5, 2, 1, 1, 8, 1, 4, 4, 3, 6, 5],
     activePlayer: 1,
     targetedPlayer: null,
-    activeCard: null
+    activeCard: null,
+    removedCard: 7
   }
 
   const newState = reducer(state, action)
