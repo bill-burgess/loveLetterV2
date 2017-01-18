@@ -114,12 +114,15 @@ function reducer(state, action){
 
 function newHistory(state, type, targetPlayer){
   const historyState = clone(state)
+  const targetPlayerCard = targetPlayer
+    ?historyState.players[targetPlayer].hand[0]
+    :null
   const history = {
     type: type,
     activePlayerAtAction: historyState.activePlayer,
     targetPlayer: targetPlayer,
     playedCard: historyState.activeCard,
-    targetPlayerCard: historyState.players[targetPlayer].hand[0]
+    targetPlayerCard: targetPlayerCard
   }
   state.history.push(history)
 }
