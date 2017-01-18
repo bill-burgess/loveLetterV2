@@ -6,8 +6,10 @@ function reducer(state, action){
   switch (action.type) {
     case 'GENERATE_DECK':
       const unshuffledDeck = [1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7, 8]
-      for (var i = 0; i < unshuffledDeck.length; i++) {
-        newState.deck.push(unshuffledDeck[Math.floor(Math.random() * unshuffledDeck.length)])
+      while(unshuffledDeck.length) {
+        const randomCardPosition = Math.floor(Math.random() * unshuffledDeck.length)
+        const card = unshuffledDeck.splice(randomCardPosition, 1)
+        newState.deck.push(card[0])
       }
       return newState
 
@@ -26,8 +28,30 @@ function reducer(state, action){
     case 'DEAL':
       newState.deck.pop()
       Object.keys(newState.players).forEach(playerId => {
-        newState.players[playerId].hand.push(newState.deck.pop())
+        const card = newState.deck.pop()
+        newState.players[playerId].hand.push(card)
       })
       return newState
+
+    case 'PLAY_CARD':
+      const playedCard = newState.players[state.activePlayer].hand.splice(action.payload, 1)[0]
+      newState.activeCard = playedCard
+      return newState
+
+    case 'TARGET_PLAYER':
+      switch (newState.activeCard) {
+        case 3:
+          const activePlayerRank = newState.players[newState.activePlayer].hand[0]
+          const targetPlayerRank = newState.players[action.payload].hand[0]
+          if(activePlayerRank !== targetPlayerRank){
+            const playerToEliminate = (activePlayerRank < targetPlayerRank)
+              ?newState.players[newState.activePlayer]
+              :newState.players[action.payload]
+            playerToEliminate.alive = false
+          }
+      }
+      newState.activeCard = null
+      return newState
+
   }
 }
