@@ -26,7 +26,7 @@ function reducer(state, action){
       return newState
 
     case 'DEAL':
-      newState.deck.pop()
+      newState.removedCard = newState.deck.pop()
       Object.keys(newState.players).forEach(playerId => {
         const card = newState.deck.pop()
         newState.players[playerId].hand.push(card)
@@ -49,9 +49,26 @@ function reducer(state, action){
               :newState.players[action.payload]
             playerToEliminate.alive = false
           }
+        case 5:
+          const discard = newState.players[action.payload].hand.splice(0, 1)[0]
+          if(discard === 8){
+            newState.players[action.payload].alive = false
+          }else{
+            if(newState.deck.length === 0){
+              newState.players[action.payload].push(newState.removedCard)
+            }else{
+              drawCard(newState, action.payload)
+            }
+          }
       }
       newState.activeCard = null
       return newState
 
   }
+}
+
+
+function drawCard(state, playerKey){
+  const card = state.deck.pop()
+  state.players[playerKey].hand.push(card)
 }

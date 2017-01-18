@@ -14,7 +14,9 @@ test('Prince (5) | Tom discards priest and draws king', t => {
     activePlayer: 4, // Harry (who has a prince)
     activeCard: null,
     targetedPlayer: null,
-    deck: [5, 2, 1, 1, 1, 4, 4, 3, 6]
+    deck: [5, 2, 1, 1, 1, 4, 4, 3, 6],
+    removedCard: 3
+
   }
   freeze(state)
 
@@ -34,7 +36,8 @@ test('Prince (5) | Tom discards priest and draws king', t => {
       activePlayer: 4,
       activeCard: 5,
       targetedPlayer: null,
-      deck: [5, 2, 1, 1, 8, 1, 4, 4, 3, 6]
+      deck: [5, 2, 1, 1, 1, 4, 4, 3, 6],
+      removedCard: 3
     }
 
     t.deepEqual(intermediateState, expectedIntState, 'removes played card from hand and updates activeCard')
@@ -56,7 +59,8 @@ test('Prince (5) | Tom discards priest and draws king', t => {
     activePlayer: 4,
     activeCard: null,
     targetedPlayer: null,
-    deck: [5, 2, 1, 1, 8, 1, 4, 4, 3]
+    deck: [5, 2, 1, 1, 1, 4, 4, 3],
+    removedCard: 3
   }
 
   t.deepEqual(expectedEndState1, endState1, 'Tom discards his priest and draws the next card, a king')
@@ -77,7 +81,8 @@ test('Prince (5) | Tom discards priest and draws king', t => {
     activePlayer: 4,
     activeCard: null,
     targetedPlayer: null,
-    deck: [5, 2, 1, 1, 8, 1, 4, 4, 3, 6]
+    deck: [5, 2, 1, 1, 1, 4, 4, 3, 6],
+    removedCard: 3
   }
 
   t.deepEqual(expectedEndState2, endState2, 'Bill discards his princess and is eliminated')
