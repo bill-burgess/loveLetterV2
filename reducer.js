@@ -113,7 +113,7 @@ function reducer(state, action){
 
 }
 
-function newHistory(state, type, targetPlayer, guess){
+function newHistory(state, type, targetPlayer, guess = null){
   const historyState = clone(state)
   const targetPlayerCard = targetPlayer
     ?historyState.players[targetPlayer].hand[0]
