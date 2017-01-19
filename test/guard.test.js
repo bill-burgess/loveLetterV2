@@ -15,7 +15,8 @@ test('Guard (1) | Harry plays a guard, targets Tom, guesses he has a priest and 
     activeCard: null,
     targetedPlayer: null,
     deck: [5, 2, 1, 1, 1, 4, 4, 3, 5],
-    removedCard: 3
+    removedCard: 3,
+    history: []
 
   }
   freeze(state)
@@ -37,7 +38,8 @@ test('Guard (1) | Harry plays a guard, targets Tom, guesses he has a priest and 
       activeCard: 1,
       targetedPlayer: null,
       deck: [5, 2, 1, 1, 1, 4, 4, 3, 5],
-      removedCard: 3
+      removedCard: 3,
+      history: []
     }
 
     t.deepEqual(intermediateState, expectedIntState, 'removes played card from hand and updates activeCard')
@@ -60,7 +62,8 @@ test('Guard (1) | Harry plays a guard, targets Tom, guesses he has a priest and 
     activeCard: 1,
     targetedPlayer: 2,
     deck: [5, 2, 1, 1, 1, 4, 4, 3, 5],
-    removedCard: 3
+    removedCard: 3,
+    history: []
   }
 
   t.deepEqual(expectedTargetingState, targetingState, 'updates the player that was targeted in the state')
@@ -82,7 +85,17 @@ test('Guard (1) | Harry plays a guard, targets Tom, guesses he has a priest and 
     activeCard: null,
     targetedPlayer: null,
     deck: [5, 2, 1, 1, 1, 4, 4, 3, 5],
-    removedCard: 3
+    removedCard: 3,
+    history: [
+      {
+        type: 'PLAYED_CARD',
+        targetPlayer: 2,
+        activePlayerAtAction: 4,
+        playedCard: 1,
+        targetPlayerCard: 2,
+        guess: 2
+      }
+    ]
   }
 
   t.deepEqual(endState, expectedEndState, 'elimates Tom on a correct guess')

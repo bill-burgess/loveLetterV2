@@ -101,6 +101,7 @@ function reducer(state, action){
       return newState
 
       case 'GUESS_CARD':
+        newHistory(newState, 'PLAYED_CARD', newState.targetedPlayer, action.payload)
         if(newState.players[newState.targetedPlayer].hand[0] === action.payload){
           newState.players[newState.targetedPlayer].alive = false
         }
@@ -112,7 +113,7 @@ function reducer(state, action){
 
 }
 
-function newHistory(state, type, targetPlayer){
+function newHistory(state, type, targetPlayer, guess){
   const historyState = clone(state)
   const targetPlayerCard = targetPlayer
     ?historyState.players[targetPlayer].hand[0]
@@ -122,7 +123,8 @@ function newHistory(state, type, targetPlayer){
     activePlayerAtAction: historyState.activePlayer,
     targetPlayer: targetPlayer,
     playedCard: historyState.activeCard,
-    targetPlayerCard: targetPlayerCard
+    targetPlayerCard: targetPlayerCard,
+    guess: guess,
   }
   state.history.push(history)
 }
