@@ -1,9 +1,8 @@
 const test = require('tape')
 const freeze = require('deep-freeze')
-const reducer = require('../reducer')
+const reducer = require('../src/reducer')
 
 test('King (6) | Harry plays a king, trades his guard for Toms priest', t => {
-
   const state = {
     players: {
       1: {name: 'Bill', hand: [8], position: 1, immune: false, alive: true},
@@ -15,7 +14,8 @@ test('King (6) | Harry plays a king, trades his guard for Toms priest', t => {
     activeCard: null,
     targetedPlayer: null,
     deck: [5, 2, 1, 1, 1, 4, 4, 3, 5],
-    removedCard: 3
+    removedCard: 3,
+    history: []
 
   }
   freeze(state)
@@ -27,20 +27,21 @@ test('King (6) | Harry plays a king, trades his guard for Toms priest', t => {
 
   const intermediateState = reducer(state, action)
   const expectedIntState = {
-      players: {
-        1: {name: 'Bill', hand: [8], position: 1, immune: false, alive: true},
-        2: {name: 'Tom', hand: [2], position: 2, immune: false, alive: true},
-        3: {name: 'Dick', hand: [1], position: 3, immune: false, alive: true},
-        4: {name: 'Harry', hand: [1], position: 4, immune: false, alive: true}
-      },
-      activePlayer: 4,
-      activeCard: 6,
-      targetedPlayer: null,
-      deck: [5, 2, 1, 1, 1, 4, 4, 3, 5],
-      removedCard: 3
-    }
+    players: {
+      1: {name: 'Bill', hand: [8], position: 1, immune: false, alive: true},
+      2: {name: 'Tom', hand: [2], position: 2, immune: false, alive: true},
+      3: {name: 'Dick', hand: [1], position: 3, immune: false, alive: true},
+      4: {name: 'Harry', hand: [1], position: 4, immune: false, alive: true}
+    },
+    activePlayer: 4,
+    activeCard: 6,
+    targetedPlayer: null,
+    deck: [5, 2, 1, 1, 1, 4, 4, 3, 5],
+    removedCard: 3,
+    history: []
+  }
 
-    t.deepEqual(intermediateState, expectedIntState, 'removes played card from hand and updates activeCard')
+  t.deepEqual(intermediateState, expectedIntState, 'removes played card from hand and updates activeCard')
   // harry targets another play with the prince
 
   const targetingAction1 = {
@@ -60,7 +61,17 @@ test('King (6) | Harry plays a king, trades his guard for Toms priest', t => {
     activeCard: null,
     targetedPlayer: null,
     deck: [5, 2, 1, 1, 1, 4, 4, 3, 5],
-    removedCard: 3
+    removedCard: 3,
+    history: [
+      {
+        type: 'PLAYED_CARD',
+        targetPlayer: 2,
+        activePlayerAtAction: 4,
+        playedCard: 6,
+        targetPlayerCard: 2,
+        guess: null
+      }
+    ]
   }
 
   t.deepEqual(expectedEndState1, endState1, 'Tom gives Harry his priest and recieves Harrys guard')

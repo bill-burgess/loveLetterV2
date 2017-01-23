@@ -1,9 +1,8 @@
 const test = require('tape')
 const freeze = require('deep-freeze')
-const reducer = require('../reducer')
+const reducer = require('../src/reducer')
 
 test('Prince (5) | Tom discards priest and draws king', t => {
-
   const state = {
     players: {
       1: {name: 'Bill', hand: [8], position: 1, immune: false, alive: true},
@@ -15,7 +14,8 @@ test('Prince (5) | Tom discards priest and draws king', t => {
     activeCard: null,
     targetedPlayer: null,
     deck: [5, 2, 1, 1, 1, 4, 4, 3, 6],
-    removedCard: 3
+    removedCard: 3,
+    history: []
 
   }
   freeze(state)
@@ -27,20 +27,21 @@ test('Prince (5) | Tom discards priest and draws king', t => {
 
   const intermediateState = reducer(state, action)
   const expectedIntState = {
-      players: {
-        1: {name: 'Bill', hand: [8], position: 1, immune: false, alive: true},
-        2: {name: 'Tom', hand: [2], position: 2, immune: false, alive: true},
-        3: {name: 'Dick', hand: [1], position: 3, immune: false, alive: true},
-        4: {name: 'Harry', hand: [1], position: 4, immune: false, alive: true}
-      },
-      activePlayer: 4,
-      activeCard: 5,
-      targetedPlayer: null,
-      deck: [5, 2, 1, 1, 1, 4, 4, 3, 6],
-      removedCard: 3
-    }
+    players: {
+      1: {name: 'Bill', hand: [8], position: 1, immune: false, alive: true},
+      2: {name: 'Tom', hand: [2], position: 2, immune: false, alive: true},
+      3: {name: 'Dick', hand: [1], position: 3, immune: false, alive: true},
+      4: {name: 'Harry', hand: [1], position: 4, immune: false, alive: true}
+    },
+    activePlayer: 4,
+    activeCard: 5,
+    targetedPlayer: null,
+    deck: [5, 2, 1, 1, 1, 4, 4, 3, 6],
+    removedCard: 3,
+    history: []
+  }
 
-    t.deepEqual(intermediateState, expectedIntState, 'removes played card from hand and updates activeCard')
+  t.deepEqual(intermediateState, expectedIntState, 'removes played card from hand and updates activeCard')
   // harry targets another play with the prince
 
   const targetingAction1 = {
@@ -60,7 +61,17 @@ test('Prince (5) | Tom discards priest and draws king', t => {
     activeCard: null,
     targetedPlayer: null,
     deck: [5, 2, 1, 1, 1, 4, 4, 3],
-    removedCard: 3
+    removedCard: 3,
+    history: [
+      {
+        type: 'PLAYED_CARD',
+        targetPlayer: 2,
+        activePlayerAtAction: 4,
+        playedCard: 5,
+        targetPlayerCard: 2,
+        guess: null
+      }
+    ]
   }
 
   t.deepEqual(expectedEndState1, endState1, 'Tom discards his priest and draws the next card, a king')
@@ -82,7 +93,25 @@ test('Prince (5) | Tom discards priest and draws king', t => {
     activeCard: null,
     targetedPlayer: null,
     deck: [5, 2, 1, 1, 1, 4, 4, 3, 6],
-    removedCard: 3
+    removedCard: 3,
+    history: [
+      {
+        type: 'PLAYED_CARD',
+        targetPlayer: 1,
+        activePlayerAtAction: 4,
+        playedCard: 5,
+        targetPlayerCard: 8,
+        guess: null
+      },
+      {
+        type: 'ELIMINATED',
+        targetPlayer: 1,
+        activePlayerAtAction: 4,
+        playedCard: 5,
+        targetPlayerCard: undefined,
+        guess: null
+      }
+    ]
   }
 
   t.deepEqual(expectedEndState2, endState2, 'Bill discards his princess and is eliminated')
@@ -98,8 +127,9 @@ test('Prince (5) | Tom discards priest and draws king', t => {
     activeCard: 5,
     targetedPlayer: null,
     deck: [],
-    removedCard: 3
-}
+    removedCard: 3,
+    history: []
+  }
 
   const endState3 = reducer(intermediateState2, targetingAction1)
 
@@ -114,7 +144,17 @@ test('Prince (5) | Tom discards priest and draws king', t => {
     activeCard: null,
     targetedPlayer: null,
     deck: [],
-    removedCard: 3
+    removedCard: 3,
+    history: [
+      {
+        type: 'PLAYED_CARD',
+        targetPlayer: 2,
+        activePlayerAtAction: 4,
+        playedCard: 5,
+        targetPlayerCard: 2,
+        guess: null
+      }
+    ]
   }
 
   t.deepEqual(expectedEndState3, endState3, 'Tom discards his priest and as there are no cards in the deck adds the removedCard to his hand, a baron')

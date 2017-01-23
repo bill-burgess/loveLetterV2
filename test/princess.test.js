@@ -1,9 +1,8 @@
 const test = require('tape')
 const freeze = require('deep-freeze')
-const reducer = require('../reducer')
+const reducer = require('../src/reducer')
 
 test('Princess (8) | Harry plays the princess which eliminates himself', t => {
-
   const state = {
     players: {
       1: {name: 'Bill', hand: [4], position: 1, immune: false, alive: true},
@@ -27,20 +26,20 @@ test('Princess (8) | Harry plays the princess which eliminates himself', t => {
 
   const intermediateState = reducer(state, action)
   const expectedIntState = {
-      players: {
-        1: {name: 'Bill', hand: [4], position: 1, immune: false, alive: true},
-        2: {name: 'Tom', hand: [2], position: 2, immune: false, alive: true},
-        3: {name: 'Dick', hand: [1], position: 3, immune: false, alive: true},
-        4: {name: 'Harry', hand: [1], position: 4, immune: false, alive: false}
-      },
-      activePlayer: 4,
-      activeCard: null,
-      targetedPlayer: null,
-      deck: [5, 2, 1, 1, 1, 4, 6, 3, 5],
-      removedCard: 3
-    }
+    players: {
+      1: {name: 'Bill', hand: [4], position: 1, immune: false, alive: true},
+      2: {name: 'Tom', hand: [2], position: 2, immune: false, alive: true},
+      3: {name: 'Dick', hand: [1], position: 3, immune: false, alive: true},
+      4: {name: 'Harry', hand: [1], position: 4, immune: false, alive: false}
+    },
+    activePlayer: 4,
+    activeCard: null,
+    targetedPlayer: null,
+    deck: [5, 2, 1, 1, 1, 4, 6, 3, 5],
+    removedCard: 3
+  }
 
-    t.deepEqual(intermediateState, expectedIntState, 'Harry is eliminated because he played the princess')
+  t.deepEqual(intermediateState, expectedIntState, 'Harry is eliminated because he played the princess')
 
   t.end()
 })

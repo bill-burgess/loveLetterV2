@@ -1,9 +1,8 @@
 const test = require('tape')
 const freeze = require('deep-freeze')
-const reducer = require('../reducer')
+const reducer = require('../src/reducer')
 
 test('GENERATE_DECK | returns a full deck of 16 cards', t => {
-
   const state = {
     players: {},
     deck: [],
@@ -31,13 +30,12 @@ test('GENERATE_DECK | returns a full deck of 16 cards', t => {
 
   t.deepEqual(newState.cardTypes, expectedState.cardTypes, 'should not change other aspects of the state')
   t.is(newState.deck.length, 16, 'deck should contain 16 cards')
-  t.is(typeof(newState.deck[4]), 'number', 'any given element of the deck should be a number')
+  t.is(typeof (newState.deck[4]), 'number', 'any given element of the deck should be a number')
 
   t.end()
 })
 
 test('SET_PLAYERS | adds an object to the object players in the state for each player name submitted', t => {
-
   const state = {
     players: {},
     deck: [1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7, 8],
@@ -71,9 +69,7 @@ test('SET_PLAYERS | adds an object to the object players in the state for each p
   t.end()
 })
 
-
 test('DEAL | removes the last card from the deck array then gives one card to each player', t => {
-
   const state = {
     players: {
       1: {name: 'Bill', hand: [], playerPosition: 1, immune: false, eliminated: false},
