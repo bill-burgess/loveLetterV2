@@ -8,14 +8,12 @@ const HistoryBox = require('./History')
 
 module.exports = function App (props) {
   const { store, state } = props
-  console.log('The state: ', state);
-  const { players } = state
-  console.log('players:', players);
+  // console.log('The state: ', state)
 
   return (
     <div>
       <PlayerIcons />
-      <PlayerHand store={store}/>
+      <PlayerHand store={store} state={state}/>
       <HistoryBox />
     </div>
   )
