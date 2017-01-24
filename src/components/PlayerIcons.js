@@ -14,3 +14,13 @@ module.exports = function(props){
     </div>
   )
 }
+
+function showOpponentById(state, id){
+  if(state.players[id].immune){
+    console.log('working')
+    return '¯\_(ツ)_/¯'
+  }
+  return (
+    <span key={opponentId}><img src={imgUrl} width='100px' onClick={() => store.dispatch({type: 'TARGET_PLAYER', payload: opponentId})}></img>{state.players[opponentId].name}</span>
+  )
+}

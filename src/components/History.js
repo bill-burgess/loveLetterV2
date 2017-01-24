@@ -41,7 +41,7 @@ function generateHistory(state, history){
       }
       if(history.guess){
         const cardGuessed = cards[history.guess]
-        historyLog += ` and guessed ${cardGuessed}`
+        historyLog += ` and guessing ${cardGuessed}`
       }
       return historyLog
 
@@ -58,6 +58,10 @@ function generateHistory(state, history){
       const targetPlayer = state.players[history.targetPlayer].name
       const targetPlayerCard = cards[state.players[history.targetPlayer].hand[0]]
       return `${targetPlayer} has a ${targetPlayerCard}`
+
+    case 'WINNER':
+      const winner = state.players[history.targetPlayer].name
+      return `Game over a winner is ${winner}`
 
       default:
         return 'invalid input'

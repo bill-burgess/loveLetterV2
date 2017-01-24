@@ -16,7 +16,7 @@ const App = require('./components/app')
 // const initialState = 0
 const initialState = {
   players: {
-    1: {name: 'Bill', hand: [], position: 1, immune: false, alive: true},
+    1: {name: 'you', hand: [], position: 1, immune: false, alive: true},
     2: {name: 'Tom', hand: [], position: 2, immune: false, alive: true},
     3: {name: 'Dick', hand: [], position: 3, immune: false, alive: true},
     4: {name: 'Harry', hand: [], position: 4, immune: false, alive: true}
@@ -28,6 +28,21 @@ const initialState = {
   removedCard: null,
   history: []
 }
+
+// const initialState = {
+//   players: {
+//     1: {name: 'you', hand: [8, 1], position: 1, immune: false, alive: true},
+//     2: {name: 'Tom', hand: [4], position: 2, immune: true, alive: true},
+//     3: {name: 'Dick', hand: [3], position: 3, immune: false, alive: true},
+//     4: {name: 'Harry', hand: [7], position: 4, immune: false, alive: true}
+//   },
+//   activePlayer: 1,
+//   activeCard: null,
+//   targetedPlayer: null,
+//   deck: [],
+//   removedCard: null,
+//   history: []
+// }
 
 const store = createStore(reducer, initialState)
 // store .dispatch(action)
