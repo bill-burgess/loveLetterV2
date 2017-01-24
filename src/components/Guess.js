@@ -1,18 +1,16 @@
 const React = require('react')
-const _ = require('lodash')
 
 module.exports = function(props){
   const { state, store } = props
-  const hand = state.players[1].hand
+  const guessableCards = [2,3,4,5,6,7,8]
   return (
     <div>
-      {
-        hand.map((card, i) => <img src={cards[card]} key={i} onClick={() => store.dispatch(playCard(i))}></img>)
-      }
+    {
+      guessableCards.map((card, i) => <img src={cards[card]} key={i} onClick={() => store.dispatch(guessCard(card))}></img>)
+    }
     </div>
   )
 }
-
 
 const cards = {
   1: 'https://www.alderac.com/tempest/files/2012/08/Love_Letter_Card_Guard.jpg',
@@ -25,6 +23,6 @@ const cards = {
   8: 'https://www.alderac.com/tempest/files/2012/08/Love_Letter_Card_Princess.jpg'
 }
 
-function playCard(cardId){
-  return {type: 'PLAY_CARD', payload: cardId}
+function guessCard(cardId){
+  return {type: 'GUESS_CARD', payload: cardId}
 }

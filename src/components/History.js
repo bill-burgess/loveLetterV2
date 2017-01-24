@@ -5,7 +5,6 @@ module.exports = function(props){
   const { state, store} = props
   const { history } = state
   history.map(entry => {
-    console.log(entry)
   })
   return (
     <div>
@@ -46,11 +45,19 @@ function generateHistory(state, history){
       }
       return historyLog
 
-      break;
-
     case 'ELIMINATED':
       const eliminatedPlayer = state.players[history.targetPlayer].name
       return `${eliminatedPlayer} was eliminated by the ${playedCard} effect`
+
+    case 'DISCARD':
+      const discardingPlayer = state.players[history.targetPlayer]
+      const discard = cards[discardingPlayer.hand[0]]
+      return `${discardingPlayer.name} discards a ${cards[discardingPlayer.hand[0]]}`
+
+    case 'REVEAL':
+      const targetPlayer = state.players[history.targetPlayer].name
+      const targetPlayerCard = cards[state.players[history.targetPlayer].hand[0]]
+      return `${targetPlayer} has a ${targetPlayerCard}`
 
       default:
         return 'invalid input'
