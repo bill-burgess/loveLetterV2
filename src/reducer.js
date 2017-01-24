@@ -4,36 +4,39 @@ module.exports = reducer
 function reducer (state, action) {
   const newState = clone(state)
   switch (action.type) {
-    case 'GENERATE_DECK':
+
+    case 'START_NEW_GAME':
+      const newGameState = {
+        players: {
+          1: {name: 'you', hand: [], position: 1, immune: false, alive: true},
+          2: {name: 'Tom', hand: [], position: 2, immune: false, alive: true},
+          3: {name: 'Dick', hand: [], position: 3, immune: false, alive: true},
+          4: {name: 'Harry', hand: [], position: 4, immune: false, alive: true}
+        },
+        activePlayer: 1,
+        activeCard: null,
+        targetedPlayer: null,
+        deck: [],
+        removedCard: null,
+        history: []
+      }
       const unshuffledDeck = [1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 7, 8]
       while (unshuffledDeck.length) {
         const randomCardPosition = Math.floor(Math.random() * unshuffledDeck.length)
         const card = unshuffledDeck.splice(randomCardPosition, 1)
-        newState.deck.push(card[0])
+        newGameState.deck.push(card[0])
       }
-      return newState
-
-    case 'SET_PLAYERS':
-      action.payload.forEach(function (playerName, i) {
-        newState.players[i + 1] = {
-          name: playerName,
-          hand: [],
-          playerPosition: i + 1,
-          immune: false,
-          eliminated: false
-        }
+      newGameState.removedCard = newGameState.deck.pop()
+      Object.keys(newGameState.players).forEach(playerId => {
+        const card = newGameState.deck.pop()
+        newGameState.players[playerId].hand.push(card)
       })
-      return newState
-
-    case 'DEAL':
-      newState.removedCard = newState.deck.pop()
-      Object.keys(newState.players).forEach(playerId => {
-        const card = newState.deck.pop()
-        newState.players[playerId].hand.push(card)
-      })
-      return newState
+      return newGameState
 
     case 'PLAY_CARD':
+      if(newState.activeCard){
+        return newState
+      }
       const playedCard = newState.players[state.activePlayer].hand.splice(action.payload, 1)[0]
       newState.activeCard = playedCard
       switch (playedCard) {
@@ -58,6 +61,9 @@ function reducer (state, action) {
       }
 
     case 'TARGET_PLAYER':
+      if(!newState.activeCard){
+        return newState
+      }
       switch (newState.activeCard) {
         case 1:
           newState.targetedPlayer = action.payload
@@ -116,6 +122,9 @@ function reducer (state, action) {
       newState.activeCard = null
       newState.targetedPlayer = null
       return newState
+
+      default:
+        return newState
   }
 }
 

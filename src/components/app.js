@@ -5,6 +5,7 @@ const _ = require('lodash')
 const PlayerHand = require('./PlayerHand')
 const PlayerIcons = require('./PlayerIcons')
 const HistoryBox = require('./History')
+const StartNewGame = require('./startNewGame')
 
 module.exports = function App (props) {
   const { store, state } = props
@@ -12,9 +13,10 @@ module.exports = function App (props) {
 
   return (
     <div>
-      <PlayerIcons />
-      <PlayerHand store={store} state={state}/>
-      <HistoryBox />
+      <PlayerIcons store={store} state={state}/><br /><br />
+      <PlayerHand store={store} state={state}/><br /><br />
+      <HistoryBox store={store} state={state}/><br /><br />
+      <StartNewGame store={store} state={state}/>
     </div>
   )
 }
