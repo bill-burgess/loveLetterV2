@@ -29,7 +29,6 @@ const cards = {
 
 function generateHistory (state, history) {
   const activePlayer = state.players[history.activePlayerAtAction].name
-  console.log('active player', activePlayer)
   const playedCard = cards[history.playedCard]
   const targetPlayerCard = history.targetPlayerCard
   switch (history.type) {
@@ -49,14 +48,14 @@ function generateHistory (state, history) {
     case 'DISCARD':
       const discardingPlayer = state.players[history.targetPlayer]
       const discard = cards[history.targetPlayerCard]
-      return `${discardingPlayer.name} discards a ${cards[discardingPlayer.hand[0]]}`
+      return `${discardingPlayer.name} discards a ${discard}`
 
     case 'REVEAL':
       const targetPlayer = state.players[history.targetPlayer].name
-      if (history.activePlayerAtAction !== 1) {
+      if (history.playedCard === 2 && history.activePlayerAtAction !== 1) {
         return
       }
-      return `${targetPlayer} has a ${targetPlayerCard}`
+      return `${targetPlayer} has a ${cards[targetPlayerCard]}`
 
     case 'WINNER':
       const winner = state.players[history.targetPlayer].name

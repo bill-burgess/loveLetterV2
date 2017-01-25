@@ -16,15 +16,15 @@ const App = require('./components/app')
 // const initialState = 0
 const initialState = {
   players: {
-    1: {name: 'Bill', hand: [1, 3], position: 1, immune: false, alive: true},
-    2: {name: 'Tom', hand: [7], position: 2, immune: true, alive: true},
-    3: {name: 'Dick', hand: [4], position: 3, immune: false, alive: true},
-    4: {name: 'Harry', hand: [2], position: 4, immune: false, alive: true}
+    1: {name: 'Bill', hand: [], position: 1, immune: false, alive: true},
+    2: {name: 'Tom', hand: [], position: 2, immune: true, alive: true},
+    3: {name: 'Dick', hand: [], position: 3, immune: true, alive: true},
+    4: {name: 'Harry', hand: [], position: 4, immune: true, alive: true}
   },
   activePlayer: 1,
   activeCard: null,
   targetedPlayer: null,
-  deck: [1, 2, 3, 4],
+  deck: [],
   removedCard: null,
   history: []
 }

@@ -8,7 +8,7 @@ module.exports = function (props) {
   function getImgUrl (state, id) {
     const imgUrl = state.players[id].immune
       ? 'http://images.clipartpanda.com/lego-clip-art-pitr_LEGO_smiley_--_cool.svg'
-      : 'https://img.clipartfest.com/5659cfeb66ce9a65f47fdf4b79fe9cc4_lego-clip-art-lego-clip-art-3-lego-clipart_276-298.png'
+      : 'https://s-media-cache-ak0.pinimg.com/236x/cd/cb/c4/cdcbc46822380677630846ea09182760.jpg'
     return imgUrl
   }
 
