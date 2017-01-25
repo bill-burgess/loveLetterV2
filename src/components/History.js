@@ -1,21 +1,20 @@
 const React = require('react')
 const _ = require('lodash')
 
-module.exports = function(props){
+module.exports = function (props) {
   const { state, store} = props
   const { history } = state
   history.map(entry => {
   })
   return (
     <div>
-    {
+      {
       history.map(entry => <div>{generateHistory(state, entry)}</div>)
     }
     </div>
 
   )
 }
-
 
 const cards = {
   1: 'guard',
@@ -28,20 +27,17 @@ const cards = {
   8: 'princess'
 }
 
-function generateHistory(state, history){
+function generateHistory (state, history) {
   const activePlayer = state.players[history.activePlayerAtAction].name
   const playedCard = cards[history.playedCard]
+  const targetPlayer = state.players[history.targetPlayer].name
   switch (history.type) {
     case 'PLAYED_CARD':
       let historyLog = ''
       historyLog += `${activePlayer} played a ${playedCard}`
-      if(history.targetPlayer){
+      if (history.targetPlayer) {
         const targetPlayer = state.players[history.targetPlayer].name
         historyLog += `, targeting ${targetPlayer}`
-      }
-      if(history.guess){
-        const cardGuessed = cards[history.guess]
-        historyLog += ` and guessed ${cardGuessed}`
       }
       return historyLog
 
@@ -51,15 +47,26 @@ function generateHistory(state, history){
 
     case 'DISCARD':
       const discardingPlayer = state.players[history.targetPlayer]
-      const discard = cards[discardingPlayer.hand[0]]
+      const discard = cards[history.targetPlayerCard]
       return `${discardingPlayer.name} discards a ${cards[discardingPlayer.hand[0]]}`
 
     case 'REVEAL':
-      const targetPlayer = state.players[history.targetPlayer].name
-      const targetPlayerCard = cards[state.players[history.targetPlayer].hand[0]]
+      if (history.activePlayerAtAction !== 1) {
+        return
+      }
       return `${targetPlayer} has a ${targetPlayerCard}`
 
-      default:
-        return 'invalid input'
+    case 'WINNER':
+      const winner = state.players[history.targetPlayer].name
+      return `Game over a winner is ${winner}`
+
+    case 'IMMUNE':
+      return `${targetPlayer} is immune and is unaffected`
+
+    case 'GUESS':
+      return `${activePlayer} guessed ${targetPlayer} has a ${cards[history.guess]}`
+
+    default:
+      return 'invalid input'
   }
 }

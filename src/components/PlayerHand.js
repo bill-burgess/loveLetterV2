@@ -1,18 +1,17 @@
 const React = require('react')
 const _ = require('lodash')
 
-module.exports = function(props){
+module.exports = function (props) {
   const { state, store } = props
   const hand = state.players[1].hand
   return (
     <div>
       {
-        hand.map((card, i) => <img src={cards[card]} key={i} onClick={() => store.dispatch(playCard(i))}></img>)
+        hand.map((card, i) => <img src={cards[card]} key={i} onClick={() => store.dispatch(playCard(i))} />)
       }
     </div>
   )
 }
-
 
 const cards = {
   1: 'https://www.alderac.com/tempest/files/2012/08/Love_Letter_Card_Guard.jpg',
@@ -25,6 +24,6 @@ const cards = {
   8: 'https://www.alderac.com/tempest/files/2012/08/Love_Letter_Card_Princess.jpg'
 }
 
-function playCard(cardId){
+function playCard (cardId) {
   return {type: 'PLAY_CARD', payload: cardId}
 }

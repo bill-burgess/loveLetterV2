@@ -1,12 +1,12 @@
 const React = require('react')
 
-module.exports = function(props){
+module.exports = function (props) {
   const { state, store } = props
-  const guessableCards = [2,3,4,5,6,7,8]
+  const guessableCards = [2, 3, 4, 5, 6, 7, 8]
   return (
     <div>
-    {
-      guessableCards.map((card, i) => <img src={cards[card]} key={i} onClick={() => store.dispatch(guessCard(card))}></img>)
+      {
+      guessableCards.map((card, i) => <img src={cards[card]} key={i} onClick={() => store.dispatch(guessCard(card))} />)
     }
     </div>
   )
@@ -23,6 +23,6 @@ const cards = {
   8: 'https://www.alderac.com/tempest/files/2012/08/Love_Letter_Card_Princess.jpg'
 }
 
-function guessCard(cardId){
+function guessCard (cardId) {
   return {type: 'GUESS_CARD', payload: cardId}
 }
