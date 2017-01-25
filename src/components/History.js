@@ -29,8 +29,9 @@ const cards = {
 
 function generateHistory (state, history) {
   const activePlayer = state.players[history.activePlayerAtAction].name
+  console.log('active player', activePlayer)
   const playedCard = cards[history.playedCard]
-  const targetPlayer = state.players[history.targetPlayer].name
+  const targetPlayerCard = history.targetPlayerCard
   switch (history.type) {
     case 'PLAYED_CARD':
       let historyLog = ''
@@ -51,6 +52,7 @@ function generateHistory (state, history) {
       return `${discardingPlayer.name} discards a ${cards[discardingPlayer.hand[0]]}`
 
     case 'REVEAL':
+      const targetPlayer = state.players[history.targetPlayer].name
       if (history.activePlayerAtAction !== 1) {
         return
       }
@@ -61,10 +63,12 @@ function generateHistory (state, history) {
       return `Game over a winner is ${winner}`
 
     case 'IMMUNE':
-      return `${targetPlayer} is immune and is unaffected`
+      const immunePlayer = state.players[history.targetPlayer].name
+      return `${immunePlayer} is immune and is unaffected`
 
     case 'GUESS':
-      return `${activePlayer} guessed ${targetPlayer} has a ${cards[history.guess]}`
+      const targetedPlayer = state.players[history.targetPlayer].name
+      return `${activePlayer} guessed ${targetedPlayer} has a ${cards[history.guess]}`
 
     default:
       return 'invalid input'

@@ -173,6 +173,7 @@ function nextTurn (state) {
       state.activePlayer ++
     }
   }
+  state.players[state.activePlayer].immune = false
   drawCard(state, state.activePlayer)
 }
 
