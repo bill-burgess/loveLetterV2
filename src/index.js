@@ -2,11 +2,18 @@ const debug = require('debug')('index')
 const React = require('react')
 const ReactDOM = require('react-dom')
 const { createStore } = require('redux')
+const { Provider } = require('react-redux')
+const createHistory = require('history').createHashHistory
+const { Router, Route, IndexRoute, hashHistory } = require('react-router')
+const { MuiThemeProvider } = require('material-ui/styles')
 const reducer = require('./reducer')
-
+const initialState = require('./state')
 // components
 const App = require('./components/app')
 
+const Home = require('./components/home')
+const Game = require('./components/game')
+const Login = require('./components/login')
 // actions
 // plain object {type: string, payload: Object | string | number}
 
@@ -14,39 +21,25 @@ const App = require('./components/app')
 
 // reducer (state, action) :: -> state
 // const initialState = 0
-const initialState = {
-  players: {
-
-    1: {name: 'Bill', hand: [], position: 1, immune: false, alive: true},
-    2: {name: 'Tom', hand: [], position: 2, immune: true, alive: true},
-    3: {name: 'Dick', hand: [], position: 3, immune: true, alive: true},
-    4: {name: 'Harry', hand: [], position: 4, immune: true, alive: true}
-
-  },
-  activePlayer: 1,
-  activeCard: null,
-  targetedPlayer: null,
-  deck: [],
-  removedCard: null,
-  history: []
-}
-
-// const initialState = {
-//   players: {
-//     1: {name: 'you', hand: [8, 1], position: 1, immune: false, alive: true},
-//     2: {name: 'Tom', hand: [4], position: 2, immune: true, alive: true},
-//     3: {name: 'Dick', hand: [3], position: 3, immune: false, alive: true},
-//     4: {name: 'Harry', hand: [7], position: 4, immune: false, alive: true}
-//   },
-//   activePlayer: 1,
-//   activeCard: null,
-//   targetedPlayer: null,
-//   deck: [],
-//   removedCard: null,
-//   history: []
-// }
 
 const store = createStore(reducer, initialState)
+
+const Root = ({store}) => {
+  return (
+    <MuiThemeProvider>
+      <Provider store={store} >
+        <Router history={hashHistory}>
+          <Route path='/' component={App}>
+            <Route path='/game' component={Game} />
+          </Route>
+        </Router>
+      </Provider>
+    </MuiThemeProvider>
+  )
+}
+
+// <IndexRoute component={Home} />
+// <Route path='/login' component={Login} />
 // store .dispatch(action)
 // reducer -> state
 // store.subscribe
@@ -65,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function render (state) {
     const root = document.querySelector('#app')
     ReactDOM.render(
-      <App state={state} store={store} />,
+      <Root store={store} />,
       root
     )
   }

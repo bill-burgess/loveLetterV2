@@ -1,20 +1,24 @@
 const React = require('react')
 const _ = require('lodash')
+const { connect } = require('react-redux')
 
-module.exports = function (props) {
-  const { state, store} = props
-  const { history } = state
-  history.map(entry => {
-  })
-  return (
-    <div>
+class History extends React.Component{
+  render(){
+    const { history, dispatch } = this.props
+    history.map(entry => {
+    })
+    return (
+      <div>
       {
-      history.map(entry => <div>{generateHistory(state, entry)}</div>)
-    }
-    </div>
+        history.map(entry => <div>{generateHistory(state, entry)}</div>)
+      }
+      </div>
 
-  )
+    )
+  }
 }
+
+module.exports = connect((state) => state)(History)
 
 const cards = {
   1: 'guard',
@@ -26,6 +30,7 @@ const cards = {
   7: 'countess',
   8: 'princess'
 }
+
 
 function generateHistory (state, history) {
   const activePlayer = state.players[history.activePlayerAtAction].name
