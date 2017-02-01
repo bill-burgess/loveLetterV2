@@ -4,7 +4,6 @@ const { Link } = require('react-router')
 
 class App extends React.Component{
   render(){
-    console.log('we got here', this.props)
     return(
       <div>
         {this.props.children}

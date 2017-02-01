@@ -11,7 +11,6 @@ const GuessOptions = require('./Guess')
 
 class Game extends React.Component {
   render(){
-    console.log('we did it')
     const { targetedPlayer } = this.props
     if (targetedPlayer) {
       return (
