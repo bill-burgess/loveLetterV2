@@ -58,8 +58,8 @@ function generateHistory (state, history) {
       return `${targetPlayer} has a ${cards[targetPlayerCard]}`
 
     case 'WINNER':
-      const winner = state.players[history.targetPlayer].name
-      return `Game over a winner is ${winner}`
+      const winningPlayer = state.players[history.targetPlayer].name
+      return `Game over a winner is ${winningPlayer}`
 
     case 'IMMUNE':
       const immunePlayer = state.players[history.targetPlayer].name
@@ -69,7 +69,11 @@ function generateHistory (state, history) {
       const targetedPlayer = state.players[history.targetPlayer].name
       return `${activePlayer} guessed ${targetedPlayer} has a ${cards[history.guess]}`
 
-    default:
-      return 'invalid input'
+    case 'WINNER':
+      const winner = state.players[history.targetPlayer].name
+      return `Game over a winner is ${winner}`
+
+      default:
+        return 'invalid input'
   }
 }

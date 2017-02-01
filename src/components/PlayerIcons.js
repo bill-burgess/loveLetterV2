@@ -21,4 +21,15 @@ module.exports = function (props) {
   )
 }
 
+
 // https://maxcdn.icons8.com/iOS7/PNG/512/Gaming/lego_head-512.png
+
+function showOpponentById(state, id){
+  if(state.players[id].immune){
+    console.log('working')
+    return '¯\_(ツ)_/¯'
+  }
+  return (
+    <span key={opponentId}><img src={imgUrl} width='100px' onClick={() => store.dispatch({type: 'TARGET_PLAYER', payload: opponentId})}></img>{state.players[opponentId].name}</span>
+  )
+}
