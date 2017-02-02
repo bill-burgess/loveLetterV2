@@ -12,8 +12,8 @@ class Login extends React.Component {
   render(){
     return (
       <div>
-        <LoginForm />
-        <RegisterForm />
+        <LoginForm router={this.props.router} />
+        <RegisterForm router={this.props.router} />
       </div>
     )
   }

@@ -4,6 +4,7 @@ const { connect } = require('react-redux')
 const { RaisedButton } = require('material-ui')
 const request = require('superagent')
 
+
 // components
 
 
@@ -14,7 +15,13 @@ class LoginForm extends React.Component {
     const email = this.refs.email.value
     const password = this.refs.password.value
     const confirmPassword = this.refs.confirmPassword.value
-    console.log('login', { userName, email, password, confirmPassword });
+    request.post('api/v1/users/register')
+      .send({ userName, email, password })
+      .then(response => {
+        if(response.body.login){
+          this.props.router.push('/home')
+        }
+      })
   }
 
   render(){

@@ -4,9 +4,18 @@ const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const api = require('./api')
+const session = require('express-session')
 
 module.exports = function (db) {
   const app = express()
+
+  app.set('trust proxy', 1) // trust first proxy
+  app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}))
 
   app.use(logger('dev'))
   app.use(bodyParser.json())
@@ -40,7 +49,7 @@ module.exports = function (db) {
   app.use('/', express.static(path.join(__dirname, 'public')))
 
   // routes
-  app.use('/api/v1/', api.myRoute(db))
+  app.use('/api/v1/users', api.users(db))
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {

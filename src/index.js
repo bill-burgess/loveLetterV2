@@ -30,6 +30,7 @@ const Root = ({store}) => {
       <Provider store={store} >
         <Router history={hashHistory}>
           <Route path='/' component={App}>
+            <Route path='/home' component={Home} />
             <Route path='/game' component={Game} />
             <Route path='/login' component={Login} />
           </Route>
@@ -39,7 +40,6 @@ const Root = ({store}) => {
   )
 }
 
-// <IndexRoute component={Home} />
 // store .dispatch(action)
 // reducer -> state
 // store.subscribe

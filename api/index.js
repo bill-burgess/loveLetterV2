@@ -1,6 +1,5 @@
-const myRoute = require('./a-resource')
+const users = require('./users')
 
 module.exports = {
-  myRoute
+  users
 }
-
