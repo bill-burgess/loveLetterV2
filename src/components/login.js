@@ -6,6 +6,8 @@ const { connect } = require('react-redux')
 // components
 const LoginForm = require('./loginForm')
 const RegisterForm = require('./registerForm')
+const AuthErr = require('./authErr')
+
 class Login extends React.Component {
 
 
@@ -13,12 +15,12 @@ class Login extends React.Component {
     return (
       <div>
         <LoginForm router={this.props.router} />
+        <AuthErr  {...this.props} />
         <RegisterForm router={this.props.router} />
       </div>
     )
   }
 }
 
-// <AuthErr  {...this.props} />
 
 module.exports = connect((state) => state)(Login)

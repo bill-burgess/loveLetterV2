@@ -12,5 +12,6 @@ module.exports = {
   targetedPlayer: null,
   deck: [],
   removedCard: null,
-  history: []
+  history: [],
+  authErr: null
 }

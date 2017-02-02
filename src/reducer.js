@@ -141,6 +141,10 @@ function reducer (state, action) {
       nextTurn(newState)
       return newState
 
+    case 'AUTH_ERR':
+      newState.authErr = action.payload
+      return newState
+
     default:
       return newState
   }
