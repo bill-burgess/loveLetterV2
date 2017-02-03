@@ -1,26 +1,41 @@
+const dotenv = require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const logger = require('morgan')
+const passportInfo = require('session-passport-info')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
-const api = require('./api')
 const session = require('express-session')
+const passport = require('passport')
+const TwitterStrategy = require('passport-twitter').Strategy
+const morgan = require('morgan')
+const api = require('./api')
+
+const passportConfig = require('./passport-config')
+const routes = require('./routes')
 
 module.exports = function (db) {
   const app = express()
 
+  app.use(morgan('dev'))
   app.set('trust proxy', 1) // trust first proxy
   app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
-}))
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+  }))
+
+  app.use(passport.initialize())
+  app.use(passport.session())
 
   app.use(logger('dev'))
+  app.use(cookieParser('sercret'))
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(cookieParser())
+
+  passportConfig(app, passport, db)
 
   if (app.get('env') === 'development') {
     // bundle client/index.js
@@ -49,7 +64,7 @@ module.exports = function (db) {
   app.use('/', express.static(path.join(__dirname, 'public')))
 
   // routes
-  app.use('/api/v1/users', api.users(db))
+  app.use('/api/v1/', api.users(db, passport))
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {

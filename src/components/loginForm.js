@@ -6,27 +6,20 @@ const request = require('superagent')
 
 // components
 
-
 class LoginForm extends React.Component {
 
-  handleSubmit(){
-
-
+  handleSubmit () {
     const email = this.refs.email.value
     const password = this.refs.passwordEntry.value
 
-    request.post('api/v1/users/login')
+    request.post('api/v1/login/auth/local')
       .send({ email, password })
-      .then(response => {
-        if(response.body.login){
-          this.props.router.push('/home')
-        }else{
-          console.log(response);
-        }
+      .then(res => {
+        console.log(res);
       })
   }
 
-  render(){
+  render () {
     return (
       <div>
         <form>

@@ -10,7 +10,7 @@ const StartNewGame = require('./startNewGame')
 const GuessOptions = require('./Guess')
 
 class Game extends React.Component {
-  render(){
+  render () {
     const { targetedPlayer } = this.props
     if (targetedPlayer) {
       return (
@@ -32,6 +32,5 @@ class Game extends React.Component {
     )
   }
 }
-
 
 module.exports = connect((state) => state)(Game)

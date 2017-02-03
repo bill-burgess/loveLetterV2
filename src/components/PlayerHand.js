@@ -2,8 +2,8 @@ const React = require('react')
 const _ = require('lodash')
 const { connect } = require('react-redux')
 
-class PlayerHand extends React.Component{
-  render(){
+class PlayerHand extends React.Component {
+  render () {
     const { players, dispatch } = this.props
     const hand = players[1].hand
     const cards = {
@@ -22,13 +22,12 @@ class PlayerHand extends React.Component{
     }
     return (
       <div>
-      {
+        {
         hand.map((card, i) => <img src={cards[card]} key={i} onClick={() => dispatch(playCard(i))} />)
       }
       </div>
     )
   }
 }
-
 
 module.exports = connect((state) => state)(PlayerHand)

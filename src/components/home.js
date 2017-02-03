@@ -5,10 +5,10 @@ const { RaisedButton } = require('material-ui')
 
 // components
 
-
 class LoginForm extends React.Component {
 
-  render(){
+  render () {
+    
     return (
       <div>
         this is home
@@ -16,6 +16,5 @@ class LoginForm extends React.Component {
     )
   }
 }
-
 
 module.exports = connect((state) => state)(LoginForm)

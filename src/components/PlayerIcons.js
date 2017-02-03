@@ -2,8 +2,8 @@ const React = require('react')
 const _ = require('lodash')
 const { connect } = require('react-redux')
 
-class PlayerIcons extends React.Component{
-  render(){
+class PlayerIcons extends React.Component {
+  render () {
     const { dispatch, players } = this.props
     const opponentIds = [2, 3, 4]
     const aliveOpponentIds = opponentIds.filter(id => players[id].alive)
@@ -16,7 +16,7 @@ class PlayerIcons extends React.Component{
 
     return (
       <div>
-      {
+        {
         aliveOpponentIds.map((opponentId) => <span key={opponentId}><img src={getImgUrl(players, opponentId)} width='100px' onClick={() => dispatch({type: 'TARGET_PLAYER', payload: opponentId})} />{players[opponentId].name}</span>)
       }
       </div>
@@ -28,12 +28,12 @@ module.exports = connect((state) => state)(PlayerIcons)
 
 // https://maxcdn.icons8.com/iOS7/PNG/512/Gaming/lego_head-512.png
 
-function showOpponentById(players, id){
-  if(players[id].immune){
+function showOpponentById (players, id) {
+  if (players[id].immune) {
     console.log('working')
     return '¯\_(ツ)_/¯'
   }
   return (
-    <span key={opponentId}><img src={imgUrl} width='100px' onClick={() => store.dispatch({type: 'TARGET_PLAYER', payload: opponentId})}></img>{players[opponentId].name}</span>
+    <span key={opponentId}><img src={imgUrl} width='100px' onClick={() => store.dispatch({type: 'TARGET_PLAYER', payload: opponentId})} />{players[opponentId].name}</span>
   )
 }
